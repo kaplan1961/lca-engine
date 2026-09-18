@@ -2,7 +2,7 @@
 
 Thin wrappers over the systems of record: the applicant tracking system (job
 postings), the sourcing/HRIS providers (candidate work history, education, and
-skills), and the candidate-profile cache. The agent's tools call these functions 
+skills), and the candidate-profile cache. The agent's tools call these functions
 rather than touching storage directly.
 
 The underlying records live in ``recruiting_records``.
@@ -10,13 +10,17 @@ The underlying records live in ``recruiting_records``.
 
 from langsmith import traceable
 
-from .recruiting_records import JOB_POSTINGS, CANDIDATES, RECRUITER_IDS
+from .recruiting_records import CANDIDATES, JOB_POSTINGS, RECRUITER_IDS
 
 __all__ = [
-    "get_job_posting", "get_candidate_record",
-    "fetch_work_history", "fetch_education", "fetch_skills",
-    "get_profile_from_db", "save_profile_to_db",
+    "fetch_education",
+    "fetch_skills",
+    "fetch_work_history",
+    "get_candidate_record",
+    "get_job_posting",
+    "get_profile_from_db",
     "get_recruiter",
+    "save_profile_to_db",
 ]
 
 # Built candidate profiles are cached in memory (keyed by candidate_id) so repeat

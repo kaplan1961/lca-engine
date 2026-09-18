@@ -1,9 +1,9 @@
 """Recruiting assistant agent.
 
 A deep agent (built with ``deepagents.create_deep_agent``) with
-seven tools - lookup_job_posting, build_candidate_profile, get_candidate, 
-get_current_recruiter, send_candidate_email, score_candidate, and 
-add_candidate_skill. The tools call the data-access layer in ``data_service`` for 
+seven tools - lookup_job_posting, build_candidate_profile, get_candidate,
+get_current_recruiter, send_candidate_email, score_candidate, and
+add_candidate_skill. The tools call the data-access layer in ``data_service`` for
 storage and retrieval.
 
 Configure credentials via environment variables or a .env file
@@ -18,21 +18,23 @@ import json
 import os
 import random
 import uuid
+from typing import Literal
 
+from deepagents import create_deep_agent
 from dotenv import load_dotenv
+from langchain_core.runnables import RunnableConfig
+from langchain_core.tools import tool
+from langchain_openai import ChatOpenAI
+from pydantic import BaseModel
+
+from . import data_service
+from .data_service import RECRUITER_IDS
+
 load_dotenv(override=True)
 
 # Enable LangSmith tracing; project / API key come from the environment or .env.
 os.environ.setdefault("LANGSMITH_TRACING", "true")
 
-from pydantic import BaseModel
-from langchain_core.tools import tool
-from langchain_core.runnables import RunnableConfig
-from langchain_openai import ChatOpenAI
-from deepagents import create_deep_agent
-
-from . import data_service
-from .data_service import RECRUITER_IDS
 
 MODEL_NAME = "gpt-4o-mini"
 
@@ -102,7 +104,6 @@ SCORING_PROMPT = (
     "overall assessment of this candidate's fit."
 )
 
-from typing import Literal
 
 class RubricBreakdown(BaseModel):
     experience: float
